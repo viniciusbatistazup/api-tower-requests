@@ -1,7 +1,15 @@
 import requests
 import time
 import sys
+import logging
+import os
 from load_conf import load_yml_file
+
+tower_one_endpoint = os.getenv('TOWER_ONE_ENDPOINT', 'localhost')
+tower_one_port = os.getenv('TOWER_ONE_PORT', '5000')
+tower_one_interval_request = os.getenv('TOWER_ONE_INTERVAL_REQUEST', '0.01')
+
+logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s',  level=logging.INFO)
 
 
 yml = load_yml_file("conf.yaml")
@@ -30,14 +38,21 @@ def calc_requests(yml):
         except:
             status500 = 0
 
-        print(status200)
-        print(status300)
-        print(status400)
-        print(status500)
+        logging.info('status200: '+str(status200))
+        logging.info('status300: '+str(status300))
+        logging.info('status400: '+str(status400))
+        logging.info('status500: '+str(status500))
+
+        # print(status200)
+        # print(status300)
+        # print(status400)
+        # print(status500)
 
         sum_total_status_code = status200 + status300 + status400 + status500
-        print(sum_total_status_code)
-        if(sum_total_status_code is not 100):
+        logging.info('sum_total_status_code: '+str(sum_total_status_code))
+        # print(sum_total_status_code)
+
+        if(sum_total_status_code != 100):
             print('Invalid conf.yaml\nsum(num_requests) should give 100')
             sys.exit(1)
 
@@ -48,12 +63,16 @@ def calc_requests(yml):
 
 
 def send_requests(number, path):
-    
-    for x in range(number):  
-        requests.get(
-            'http://localhost:5000/'+str(path)
-        )
-        time.sleep(0.1)
+
+    for x in range(number):
+
+        try:
+            requests.get(
+                'http://'+str(tower_one_endpoint)+':'+str(tower_one_port)+'/'+str(path)
+            )
+            time.sleep(0.1)
+        except:
+            logging.error('Request error %s:%s', str(tower_one_endpoint), str(tower_one_port))
 
 
 while True:

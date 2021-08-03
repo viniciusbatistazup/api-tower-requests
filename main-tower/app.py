@@ -29,4 +29,8 @@ def server():
     return json.dumps({'status-code': '500'}), 500
 
 
+@app.route('/division')
+def division():
+    return 1/0
+
 app.run()
