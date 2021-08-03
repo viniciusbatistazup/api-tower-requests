@@ -1,0 +1,5 @@
+num_requests:
+  2xx: 40
+  3xx: 40
+  4xx: 10
+  5xx: 10
