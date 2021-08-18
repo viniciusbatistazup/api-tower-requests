@@ -33,4 +33,10 @@ def server():
 def division():
     return 1/0
 
+
+@app.route('/hello')
+def hello():
+    return json.dumps({'msg': 'Hello !'}), 200
+
+
 app.run()

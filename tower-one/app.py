@@ -7,7 +7,7 @@ from load_conf import load_yml_file
 
 tower_one_endpoint = os.getenv('TOWER_ONE_ENDPOINT', 'localhost')
 tower_one_port = os.getenv('TOWER_ONE_PORT', '5000')
-tower_one_interval_request = os.getenv('TOWER_ONE_INTERVAL_REQUEST', '0.01')
+tower_one_interval_request = os.getenv('TOWER_ONE_INTERVAL_REQUEST', '0.05')
 
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s',  level=logging.INFO)
 
@@ -77,4 +77,4 @@ def send_requests(number, path):
 
 while True:
     calc_requests(yml)
-    time.sleep(0.1)
+    time.sleep(float(tower_one_interval_request))

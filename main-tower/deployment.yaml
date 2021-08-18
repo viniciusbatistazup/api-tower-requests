@@ -1,3 +1,5 @@
+# cat deployment.yml | linkerd inject - | kubectl apply -f -
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -6,8 +8,6 @@ metadata:
     app: main-tower
   annotations:
     linkerd.io/inject: enabled
-    enable-opentracing: "true"
-    zipkin-collector-host: linkerd-collector.linkerd
 spec:
   replicas: 1
   selector:
@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: main-tower
-        image: apolzek/main-tower:0.2
+        image: apolzek/main-tower-example
         ports:
         - containerPort: 5000
 ---
