@@ -3,35 +3,38 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: main-tower
+  name: main-tower-example
   labels:
-    app: main-tower
+    app: main-tower-example
   annotations:
     linkerd.io/inject: enabled
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: main-tower
+      app: main-tower-example
   template:
     metadata:
       labels:
-        app: main-tower
+        app: main-tower-example
     spec:
       containers:
-      - name: main-tower
+      - name: main-tower-example
         image: apolzek/main-tower-example
+        imagePullPolicy: Always
         ports:
         - containerPort: 5000
+      imagePullSecrets:
+        - name: regcred
 ---
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: main-tower
+  name: main-tower-example
 spec:
   selector:
-    app: main-tower
+    app: main-tower-example
   ports:
     - name: http
       protocol: TCP

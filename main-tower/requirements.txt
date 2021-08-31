@@ -1,1 +1,3 @@
 prometheus_flask_exporter
+Flask
+uwsgi
